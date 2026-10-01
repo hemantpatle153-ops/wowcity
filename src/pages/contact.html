@@ -1,0 +1,135 @@
+<!--meta {"title": "Join WowCity free | Contact us", "description": "Join WowCity and make your store digital today at no cost. Tell us about your shop and our team will call you, set up all your products and support you 24/7.", "nav": "contact"} -->
+<section class="page-hero compact">
+  <div class="hero-bg" aria-hidden="true"><div class="aurora a1"></div><div class="aurora a2"></div><div class="hero-grid-lines"></div><div class="noise"></div></div>
+  <div class="container page-hero-inner">
+    <p class="eyebrow eyebrow-light reveal"><svg class="i"><use href="#i-sparkle"/></svg> Join us · Contact</p>
+    <h1 class="page-title reveal" data-delay="1">Start your shop's <span class="grad-text">digital journey</span> today.</h1>
+    <p class="page-sub reveal" data-delay="2">Join free. Tell us a little about your shop and our team will call you to set everything up.</p>
+  </div>
+</section>
+
+<section class="section join-section" id="join">
+  <div class="container join-layout">
+    <div class="join-form-card reveal">
+      <form class="join-form" data-join-form action="https://formsubmit.co/{{site.contact.email}}" method="POST" data-email="{{site.contact.email}}" data-whatsapp="{{whatsappUrl}}" novalidate>
+        <div class="form-head">
+          <h2>Join WowCity free</h2>
+          <p>Takes about a minute. Our team will call you back soon.</p>
+        </div>
+        <input type="hidden" name="_subject" value="New shop wants to join WowCity">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-grid">
+          <div class="field">
+            <input id="f-shop" name="Shop name" placeholder=" " required autocomplete="organization">
+            <label for="f-shop">Shop name</label>
+          </div>
+          <div class="field">
+            <input id="f-name" name="Owner name" placeholder=" " required autocomplete="name">
+            <label for="f-name">Your name</label>
+          </div>
+          <div class="field">
+            <input id="f-phone" name="Mobile (WhatsApp)" type="tel" inputmode="tel" placeholder=" " required pattern="[0-9+\s-]{10,15}" autocomplete="tel">
+            <label for="f-phone">Mobile number (WhatsApp)</label>
+          </div>
+          <div class="field">
+            <input id="f-city" name="City" placeholder=" " required autocomplete="address-level2">
+            <label for="f-city">City</label>
+          </div>
+          <div class="field">
+            <input id="f-email" name="Email" type="email" placeholder=" " autocomplete="email">
+            <label for="f-email">Email <span class="opt">(optional)</span></label>
+          </div>
+          <div class="field">
+            <select id="f-type" name="Shop type" required>
+              <option value="" disabled selected hidden></option>
+              <option>Clothing &amp; fashion</option>
+              <option>Sarees &amp; ethnic wear</option>
+              <option>Kids wear</option>
+              <option>Footwear</option>
+              <option>Other retail</option>
+            </select>
+            <label for="f-type">What do you sell?</label>
+          </div>
+        </div>
+
+        <fieldset class="seg">
+          <legend>How many stores?</legend>
+          <label><input type="radio" name="Stores" value="1" checked><span>1</span></label>
+          <label><input type="radio" name="Stores" value="2-3"><span>2–3</span></label>
+          <label><input type="radio" name="Stores" value="4+"><span>4+</span></label>
+        </fieldset>
+
+        <fieldset class="seg">
+          <legend>How do you bill today?</legend>
+          <label><input type="radio" name="Billing today" value="Paper" checked><span>Paper</span></label>
+          <label><input type="radio" name="Billing today" value="Other software"><span>Other software</span></label>
+          <label><input type="radio" name="Billing today" value="New shop"><span>New shop</span></label>
+        </fieldset>
+
+        <div class="field">
+          <textarea id="f-msg" name="Message" placeholder=" " rows="3"></textarea>
+          <label for="f-msg">Anything else? <span class="opt">(optional)</span></label>
+        </div>
+
+        <p class="form-error" data-form-error role="alert" hidden></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" data-magnetic>
+          <span class="btn-label">Join free today</span>
+          <svg class="i"><use href="#i-arrow"/></svg>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+        <p class="form-fine">Setup and support are free. We only use your details to contact you about WowCity.</p>
+      </form>
+
+      <div class="form-success" data-form-success hidden tabindex="-1">
+        <div class="success-burst" aria-hidden="true">
+          <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="36"/><path d="m24 41 11 11 22-24"/></svg>
+        </div>
+        <h2>Welcome to WowCity!</h2>
+        <p>Thank you, <b data-success-name>friend</b>. Our team will call you soon to set up your shop.</p>
+        <div class="success-actions">
+          <a class="btn btn-primary" href="{{signupUrl}}">Create your shop now <svg class="i"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-outline" href="download.html">Get the app</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="join-side">
+      <div class="contact-cards">
+        {{#if whatsappUrl}}<a class="contact-card spotlight reveal" href="{{whatsappUrl}}" target="_blank" rel="noopener"><span class="cc-icon wa"><svg class="i"><use href="#i-whatsapp"/></svg></span><span><b>WhatsApp</b><small>Fastest reply</small></span><svg class="i cc-arrow"><use href="#i-arrow"/></svg></a>{{/if}}
+        {{#if phoneUrl}}<a class="contact-card spotlight reveal" href="{{phoneUrl}}"><span class="cc-icon"><svg class="i"><use href="#i-call"/></svg></span><span><b>{{site.contact.phone}}</b><small>Call us any time</small></span><svg class="i cc-arrow"><use href="#i-arrow"/></svg></a>{{/if}}
+        {{#if emailUrl}}<a class="contact-card spotlight reveal" href="{{emailUrl}}"><span class="cc-icon"><svg class="i"><use href="#i-mail"/></svg></span><span><b>{{site.contact.email}}</b><small>Email us</small></span><svg class="i cc-arrow"><use href="#i-arrow"/></svg></a>{{/if}}
+        <div class="contact-card static reveal"><span class="cc-icon live"><svg class="i"><use href="#i-clock"/></svg></span><span><b>Support 24/7</b><small>{{site.contact.hours}}</small></span><span class="live-dot" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="next-steps reveal" data-delay="1">
+        <h3>What happens next</h3>
+        <ol>
+          <li><b>We call you</b><span>to understand your shop</span></li>
+          <li><b>We create your account</b><span>and add all your products</span></li>
+          <li><b>We train your team</b><span>and print your labels</span></li>
+          <li><b>You start billing</b><span>with us on call 24/7</span></li>
+        </ol>
+      </div>
+
+      <div class="self-serve reveal" data-delay="2">
+        <p>Want to start right now?</p>
+        <a href="{{signupUrl}}">Create your shop yourself <svg class="i"><use href="#i-arrow"/></svg></a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section faq-section soft-section">
+  <div class="container narrow">
+    <div class="section-head center reveal">
+      <p class="eyebrow">Questions</p>
+      <h2 class="title">Before you join</h2>
+    </div>
+    <div class="faq reveal">
+      {{> faq}}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="{{site.name}} home">
+      {{> logo}}
+      <span class="brand-word">Wow<span>City</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="services.html" data-nav="services">Services</a>
+      <a href="why-us.html" data-nav="why">Why us</a>
+      <a href="download.html" data-nav="download">Download</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-ghost btn-sm hide-sm" href="{{loginUrl}}">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="contact.html#join" data-magnetic>Join free</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <nav aria-label="Mobile">
+      <a href="index.html" data-nav="home"><span>01</span>Home</a>
+      <a href="services.html" data-nav="services"><span>02</span>Services</a>
+      <a href="why-us.html" data-nav="why"><span>03</span>Why us</a>
+      <a href="download.html" data-nav="download"><span>04</span>Download</a>
+      <a href="contact.html" data-nav="contact"><span>05</span>Contact</a>
+    </nav>
+    <div class="mobile-menu-foot">
+      <a class="btn btn-primary btn-lg" href="contact.html#join">Join free today <svg class="i"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-glass btn-lg" href="{{loginUrl}}">Sign in to your shop</a>
+    </div>
+  </div>
+</header>

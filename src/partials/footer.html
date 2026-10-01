@@ -1,0 +1,41 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">{{> logo}}<span class="brand-word">Wow<span>City</span></span></a>
+        <p>Billing, stock and GST for shops across India. Free to use, set up by our team, supported 24/7.</p>
+        <div class="platform-pills">
+          <span><svg class="i"><use href="#i-android"/></svg> Android</span>
+          <span><svg class="i"><use href="#i-apple"/></svg> iOS</span>
+          <span><svg class="i"><use href="#i-desktop"/></svg> Desktop</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <a href="services.html">Services</a>
+        <a href="why-us.html">Why WowCity</a>
+        <a href="download.html">Download apps</a>
+        <a href="contact.html">Contact us</a>
+      </div>
+      <div class="footer-col">
+        <h3>Your shop</h3>
+        <a href="{{signupUrl}}">Create your shop</a>
+        <a href="{{loginUrl}}">Owner sign in</a>
+        <a href="{{staffLoginUrl}}">Staff sign in</a>
+        <a href="download.html#android">Android app</a>
+      </div>
+      <div class="footer-col">
+        <h3>Talk to us</h3>
+        {{#if whatsappUrl}}<a href="{{whatsappUrl}}" target="_blank" rel="noopener">WhatsApp us</a>{{/if}}
+        {{#if phoneUrl}}<a href="{{phoneUrl}}">{{site.contact.phone}}</a>{{/if}}
+        {{#if emailUrl}}<a href="{{emailUrl}}">{{site.contact.email}}</a>{{/if}}
+        <span class="muted">Support: {{site.contact.hours}}</span>
+      </div>
+    </div>
+    <div class="footer-word" aria-hidden="true">WowCity</div>
+    <div class="footer-bottom">
+      <span>© {{year}} {{site.name}}. Made in India for Indian shops.</span>
+      <a href="#main" class="to-top" data-to-top>Back to top <svg class="i"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</footer>

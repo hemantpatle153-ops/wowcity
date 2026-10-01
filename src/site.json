@@ -1,0 +1,17 @@
+{
+  "name": "WowCity",
+  "url": "https://luzzan.com",
+  "tagline": "Make your store digital today. Free.",
+  "description": "WowCity is free billing, stock and GST software for clothing and retail shops in India. Our team sets up all your products, supports you 24/7, and it works on Android, iPhone and desktop.",
+  "appUrl": "https://wow-city-api-848484285786.asia-southeast1.run.app",
+  "androidApk": "https://github.com/hemantpatle153-ops/wowcity-seller-app/raw/apk-builds/WowCity-Seller.apk",
+  "buyerApk": "https://github.com/hemantpatle153-ops/wowcity-buyer-app/raw/apk-builds/WowCity-buyer.apk",
+  "contact": {
+    "email": "support@luzzan.com",
+    "phone": "",
+    "whatsapp": "",
+    "whatsappMessage": "Hi WowCity, I want to make my shop digital.",
+    "hours": "Open 24/7, every day",
+    "city": "India"
+  }
+}
