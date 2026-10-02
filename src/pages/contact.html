@@ -11,14 +11,11 @@
 <section class="section join-section" id="join">
   <div class="container join-layout">
     <div class="join-form-card reveal">
-      <form class="join-form" data-join-form action="https://formsubmit.co/{{site.contact.email}}" method="POST" data-email="{{site.contact.email}}" data-whatsapp="{{whatsappUrl}}" novalidate>
+      <form class="join-form" data-join-form action="/api/join" method="POST" data-email="{{site.contact.email}}" data-whatsapp="{{whatsappUrl}}" novalidate>
         <div class="form-head">
           <h2>Join WowCity free</h2>
           <p>Takes about a minute. Our team will call you back soon.</p>
         </div>
-        <input type="hidden" name="_subject" value="New shop wants to join WowCity">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="form-grid">

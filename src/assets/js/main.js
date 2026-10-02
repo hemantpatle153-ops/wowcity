@@ -408,15 +408,20 @@
       form.classList.add("is-sending");
       submitLabel.textContent = "Sending…";
       try {
-        if (!form.dataset.email) throw new Error("no-endpoint");
-        const response = await fetch(`https://formsubmit.co/ajax/${form.dataset.email}`, {
+        const response = await fetch(form.getAttribute("action"), {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data)
         });
         const result = await response.json().catch(() => ({}));
-        if (!response.ok || String(result.success) !== "true") throw new Error(result.message || "send-failed");
-        showSuccess(data["Owner name"]);
+        if (response.ok && result.ok) {
+          showSuccess(data["Owner name"]);
+        } else if (response.status === 422 && result.error) {
+          // The server found a problem with what was typed: let them fix it.
+          showError(result.error);
+        } else {
+          throw new Error(result.error || "send-failed");
+        }
       } catch (error) {
         if (fallback(data)) showSuccess(data["Owner name"]);
         else showError("We couldn't send that just now. Please try again in a minute.");

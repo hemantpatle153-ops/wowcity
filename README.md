@@ -38,7 +38,11 @@ GitHub Actions (`.github/workflows/check.yml`) builds the site and checks every 
 
 ## Join form
 
-The Join form sends each request to the email address in `src/site.json` through [FormSubmit](https://formsubmit.co), which is free and needs no server.
+The Join form posts to `/api/join`, which is handled by the Worker in `src/worker.js`. The Worker checks the fields and emails the request to `support@luzzan.com` through Resend, from `noreply@luzzan.com`. If the shop owner gave an email, replies go straight to them.
 
-- **First submission:** FormSubmit emails that address an activation link. Click it once, and from then on every request arrives as an email.
-- **WhatsApp:** if a WhatsApp number is set, the form opens a prefilled WhatsApp chat whenever email sending fails.
+Two things need to be set up once:
+
+1. **Resend API key.** In Cloudflare, open the `wowcity` Worker, go to Settings → Variables and Secrets, and add a secret named `RESEND_API_KEY`. The key comes from resend.com → API Keys and needs "Sending access" for luzzan.com.
+2. **An inbox for support@luzzan.com.** In Cloudflare, open luzzan.com → Email → Email Routing, then forward `support@` to the Gmail you read.
+
+If sending fails, the form falls back to WhatsApp (when a number is set in `src/site.json`) or opens an email to support.
