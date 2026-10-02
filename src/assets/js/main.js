@@ -269,6 +269,96 @@
     run();
   }
 
+  /* ---------- Hero stage: scale the fixed-size scene to fit ---------- */
+  const stageWrap = $("[data-stage-wrap]");
+  const stage = stageWrap && $(".stage", stageWrap);
+  if (stage) {
+    const fit = () => {
+      const scale = Math.min(1, stageWrap.clientWidth / 600);
+      stage.style.transform = scale < 1 ? `scale(${scale})` : "";
+      stage.style.marginLeft = scale < 1 ? "0" : "";
+      stageWrap.style.height = scale < 1 ? `${620 * scale}px` : "";
+    };
+    fit();
+    window.addEventListener("resize", fit, { passive: true });
+  }
+
+  /* ---------- Hero live demo: listed → found → directions → sold, size updates for the shopper ---------- */
+  const demo = $("[data-live-demo]");
+  if (demo) {
+    const q = (sel) => $(sel, demo);
+    const toggle = q("[data-live-toggle]"), status = q("[data-live-status]"), chipLive = q("[data-chip-live]"), chipWalk = q("[data-chip-walk]");
+    const beam = q(".beam"), query = q("[data-sh-query]"), empty = q("[data-sh-empty]"), result = q("[data-sh-result]");
+    const actions = q("[data-sh-actions]"), directions = q("[data-directions]"), map = q("[data-sh-map]");
+    const sale = q("[data-sale]"), stockM = q("[data-stock-m]"), sizeM = q("[data-size-m]");
+    const searchText = "anarkali size M";
+
+    const listed = (on) => {
+      toggle.classList.toggle("is-on", on);
+      status.classList.toggle("is-live", on);
+      status.textContent = on ? "Live for shoppers nearby" : "Not visible to shoppers";
+      chipLive.classList.toggle("is-shown", on);
+    };
+    const finalState = () => {
+      listed(true);
+      query.textContent = searchText;
+      empty.classList.add("is-hidden");
+      result.classList.add("is-shown");
+      actions.classList.add("is-shown");
+      map.classList.add("is-shown");
+    };
+
+    if (reduceMotion) {
+      finalState();
+    } else {
+      let visible = true;
+      new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }).observe(demo);
+      const wait = async (ms) => { await sleep(ms); while (!visible || document.hidden) await sleep(400); };
+      const fire = (cls) => { beam.classList.remove("go", "back"); void beam.getBoundingClientRect(); beam.classList.add(cls); };
+
+      (async function loop() {
+        for (;;) {
+          listed(false);
+          [result, actions, map, sale, chipWalk].forEach((el) => el.classList.remove("is-shown"));
+          empty.classList.remove("is-hidden");
+          query.textContent = "";
+          stockM.textContent = "M 1";
+          stockM.classList.remove("is-zero");
+          sizeM.classList.remove("is-out", "is-flash");
+          await wait(1200);
+
+          listed(true);                         // 1. the shop switches the product on
+          await wait(700);
+          fire("go");                           // 2. it reaches the shopper app
+          await wait(1100);
+          for (const ch of searchText) {        // 3. a shopper nearby searches
+            query.textContent += ch;
+            await sleep(55 + Math.random() * 45);
+          }
+          await wait(350);
+          empty.classList.add("is-hidden");
+          result.classList.add("is-shown");
+          await wait(700);
+          actions.classList.add("is-shown");
+          await wait(1100);
+          directions.classList.add("is-pressed");  // 4. directions to the shop
+          await sleep(180);
+          directions.classList.remove("is-pressed");
+          map.classList.add("is-shown");
+          chipWalk.classList.add("is-shown");
+          await wait(2600);
+          sale.classList.add("is-shown");        // 5. the shop bills it; size M sells out for everyone
+          stockM.textContent = "M 0";
+          stockM.classList.add("is-zero");
+          fire("back");
+          await wait(1000);
+          sizeM.classList.add("is-out", "is-flash");
+          await wait(3200);
+        }
+      })();
+    }
+  }
+
   /* ---------- Tabs ---------- */
   $$("[data-tabs]").forEach((tabs) => {
     const buttons = $$('[role="tab"]', tabs);
