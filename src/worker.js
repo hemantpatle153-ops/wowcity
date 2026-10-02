@@ -52,7 +52,19 @@ ${rows.map(([key, value]) => `<tr><th align="left" style="background:#f4efe7;bor
   return { subject: `New shop: ${fields["Shop name"]} (${fields.City})`, html, text };
 }
 
+/** The Resend key, accepted under its documented name or a close misspelling (trailing spaces, other case). */
+function resendKey(env) {
+  if (env.RESEND_API_KEY) return env.RESEND_API_KEY;
+  const name = Object.keys(env).find((key) => key.trim().toUpperCase().replace(/[^A-Z]/g, "") === "RESENDAPIKEY");
+  return name ? env[name] : undefined;
+}
+
 async function handleJoin(request, env) {
+  // GET is a setup check for the owner: is email configured? Shows variable names only, never values.
+  if (request.method === "GET") {
+    const names = Object.keys(env).filter((key) => /resend|mail|api/i.test(key) && !["JOIN_TO", "JOIN_FROM"].includes(key));
+    return json({ ok: true, emailConfigured: Boolean(resendKey(env)), sendsTo: env.JOIN_TO || "support@luzzan.com", relatedVariableNames: names });
+  }
   if (request.method !== "POST") return json({ ok: false, error: "Method not allowed." }, 405);
   const origin = request.headers.get("origin");
   if (origin && new URL(origin).host !== new URL(request.url).host) return json({ ok: false, error: "Not allowed." }, 403);
@@ -69,13 +81,14 @@ async function handleJoin(request, env) {
 
   const { fields, error } = readJoinForm(body);
   if (error) return json({ ok: false, error }, 422);
-  if (!env.RESEND_API_KEY) return json({ ok: false, error: "Email is not set up yet." }, 503);
+  const apiKey = resendKey(env);
+  if (!apiKey) return json({ ok: false, error: "Email is not set up yet." }, 503);
 
   const submittedAt = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" });
   const message = joinEmail(fields, submittedAt);
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+    headers: { authorization: `Bearer ${String(apiKey).trim()}`, "content-type": "application/json" },
     body: JSON.stringify({
       from: env.JOIN_FROM || "WowCity Website <noreply@luzzan.com>",
       to: [env.JOIN_TO || "support@luzzan.com"],
