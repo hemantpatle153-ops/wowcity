@@ -467,11 +467,11 @@
       if (form.dataset.whatsapp) {
         const base = form.dataset.whatsapp.split("?")[0];
         window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-        return true;
+        return "whatsapp";
       }
       if (form.dataset.email) {
         window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent("Join WowCity")}&body=${encodeURIComponent(text)}`;
-        return true;
+        return "email";
       }
       return false;
     }
@@ -513,7 +513,10 @@
           throw new Error(result.error || "send-failed");
         }
       } catch (error) {
-        if (fallback(data)) showSuccess(data["Owner name"]);
+        // Sending failed: hand the details to WhatsApp or the email app, and say so plainly.
+        const via = fallback(data);
+        if (via === "whatsapp") showError("We couldn't send the form, so WhatsApp has opened with your details. Press Send there to finish.");
+        else if (via === "email") showError("We couldn't send the form, so your email app has opened with your details. Press Send there to finish.");
         else showError("We couldn't send that just now. Please try again in a minute.");
       } finally {
         form.classList.remove("is-sending");

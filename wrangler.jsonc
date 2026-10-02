@@ -4,6 +4,8 @@
   "name": "wowcity",
   "main": "src/worker.js",
   "compatibility_date": "2026-09-01",
+  // Keep variables added in the Cloudflare dashboard when a push redeploys the Worker.
+  "keep_vars": true,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
