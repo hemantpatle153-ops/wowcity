@@ -1,5 +1,5 @@
 // Cloudflare Worker: serves the static site and handles the Join form.
-// POST /api/join emails the request to JOIN_TO (support@luzzan.com) through Resend.
+// POST /api/join emails the request to JOIN_TO (a Cloudflare secret; default support@luzzan.com) through Resend.
 // Secret needed in Cloudflare: RESEND_API_KEY (Worker → Settings → Variables and Secrets).
 
 const LIMITS = {
@@ -59,11 +59,19 @@ function resendKey(env) {
   return name ? env[name] : undefined;
 }
 
+/** Where join requests go: the JOIN_TO secret (one address, or several separated by commas), else support@. */
+function joinTo(env) {
+  return String(env.JOIN_TO || "support@luzzan.com").trim();
+}
+
 async function handleJoin(request, env) {
   // GET is a setup check for the owner: is email configured? Shows variable names only, never values.
   if (request.method === "GET") {
     const names = Object.keys(env).filter((key) => /resend|mail|api/i.test(key) && !["JOIN_TO", "JOIN_FROM"].includes(key));
-    return json({ ok: true, emailConfigured: Boolean(resendKey(env)), sendsTo: env.JOIN_TO || "support@luzzan.com", relatedVariableNames: names });
+    // The destination is shown masked so this public check never reveals a personal address.
+    const to = joinTo(env);
+    const masked = to.replace(/^(.{2})[^@]*(@.*)$/, "$1***$2");
+    return json({ ok: true, emailConfigured: Boolean(resendKey(env)), sendsTo: masked, relatedVariableNames: names });
   }
   if (request.method !== "POST") return json({ ok: false, error: "Method not allowed." }, 405);
   const origin = request.headers.get("origin");
@@ -91,7 +99,7 @@ async function handleJoin(request, env) {
     headers: { authorization: `Bearer ${String(apiKey).trim()}`, "content-type": "application/json" },
     body: JSON.stringify({
       from: env.JOIN_FROM || "WowCity Website <noreply@luzzan.com>",
-      to: [env.JOIN_TO || "support@luzzan.com"],
+      to: joinTo(env).split(",").map((address) => address.trim()).filter(Boolean),
       ...(fields.Email ? { reply_to: fields.Email } : {}),
       subject: message.subject,
       html: message.html,
